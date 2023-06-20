@@ -13,7 +13,7 @@ $(function(){
             type: "POST",
             data: "submit=register_appoitment&"+str,
             success: function(data) {
-                $('#name,#phone,#email,#ap_hour').attr('disabled','disabled');
+                //$('#name,#phone,#email,#ap_hour');
                 $("#register_info").hide().html(data).fadeIn("fast");
             }
         });
@@ -22,10 +22,11 @@ $(function(){
 }
 </script>
 
+<form method="POST" action="" id="form">
 <table class="hours_table" align="center">
     <tr class="hours" align="center">
         <td align="right">Name</td>
-        <td align="left"><input name="name" id="name" class="input" type="text" size="16" maxlength="10"></td>
+        <td align="left"><input name="name" id="name" class="input" type="text" size="16" maxlength="20"></td>
         <td><p id="username_info"></p></td>
     </tr>
 
@@ -72,26 +73,16 @@ $(function(){
 </br>
 
 <table class="hours_table" align="center">
-    <tr class="hours">
-        <td align="center" colspan="2">
-        <div id="register_info">
-
-            <input id="name" type="hidden">
-            <input id="phone" type="hidden">
-            <input id="email" type="hidden">
-            <input id="ap_hour" type="hidden">
-
-            <input id="register_appoitment" class="button" type="submit" value="Make Appointment">
-        </div>
-        </td>
+    <tr class="hours" align="center">
+        <td><input id="register_appoitment" class="button" type="submit" value="Make Appointment"></td>
     </tr>
 </table>
-
+</form>
 
 <?php
 } else {
     mssql_query("INSERT INTO CalendarProject (year,month,day,name,email,phone,ap_hour) VALUES ('date('Y')','date('m')''date('d')','$_POST[name]','$_POST[email]','$_POST[phone]','$_POST[ap_hour]')");
-    echo "<font color='#56910f'>You successfully saved an appointment for " . $ap_hour . "'.</font>";
+    echo "<font color='#56910f'>You successfully saved an appointment for " . $_POST[ap_hour] . "'.</font>";
     echo "<script>setTimeout(\"window.location.reload();\",2500);</script>";
 }
 ?>
