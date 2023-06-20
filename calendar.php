@@ -9,7 +9,7 @@ function build_calendar($month, $year, $dateArray)
     $day = date('d');
 
     $daysOfWeek = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
-    $firstDayOfMonth = mktime(0, 0, 0, $month, $day + 1, $year);
+    $firstDayOfMonth = mktime(0, 0, 0, $month, $day, $year);
 
     $numberDays = date('t', $firstDayOfMonth);
     $dateComponents = getdate($firstDayOfMonth);
@@ -46,6 +46,8 @@ function build_calendar($month, $year, $dateArray)
 
         if ($date == date("Y-m-d")) {
             $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay</span></td>";
+        } else if ($dayOfWeek >= 5) {
+            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span></td>";
         } else {
             $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span></td>";
         }

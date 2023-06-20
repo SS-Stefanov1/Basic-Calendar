@@ -20,47 +20,58 @@
   	width: 14%; 
   	height: 140px; 
   	border: 1px solid #000; 
-  	vertical-align: top;}
-
-
-  td.day span.day-date {
+  	vertical-align: top;
+		background-color: #a2d9f1;
   	font-size: 14pt; 
-  	font-weight: 700;}
+  	font-weight: 700;
+  }
+
+
+  td.day_wk {
+  	width: 14%; 
+  	height: 140px; 
+  	border: 1px solid #000; 
+  	vertical-align: top;
+		background-color: #7ac9eb;
+  	font-size: 14pt; 
+  	font-weight: 700;
+  }
 
 
   th.header {
-  	background-color: #003972; 
+		background-color: #0d4259;
   	color: #fff; 
   	font-size: 14pt; 
-  	padding: 5px;}
+  	padding: 5px;
+  }
 
 
   .not-month {
-  	background-color: #a6c3df;
+		background-color: #263740;
   }
 
 
   td.today {
-  	background-color:#efefef;
+  	background-color: #bfd0d9;
   }
 
 
   td.day span.today-date {
-  	font-size: 16pt; 
-  	background-color: red !important;
+  	font-size: 14pt; 
+  	font-weight: 700;
   }
 
 
-
   table.hours_table {
-  	width:50%; 
+  	width:35%; 
   	border:1px solid #000;
+		align: center !important;
   }
 
 
   td.hours_table {
-  	align: center;
-  	width: 54%; 
+		align: center !important;
+  	width: 35%; 
   	height: 70px; 
   	border: 1px solid #000; 
   	vertical-align: top;}
