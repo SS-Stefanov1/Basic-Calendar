@@ -35,13 +35,10 @@ function build_calendar($month, $year, $dateArray)
     }
 
     $month = str_pad($month, 2, "0", STR_PAD_LEFT);
-/*
-$ap_counter = array();
 
-$ap_query = mssql_query("SELECT count(ap_hour) as total FROM CalendarProject WHERE day = '" . $currentDay . "'");
-$ap_count = mssql_num_rows($ap_query);
-$ap_left = $total_apps - $ap_count;
- */
+    $test_query = mssql_query("SELECT COUNT(ap_hour) FROM CalendarProject WHERE $date = date('Y-m-d');");
+    $test_count = mssql_fetch_array($test_query);
+
     while ($currentDay <= $numberDays) {
 
         if ($dayOfWeek == 7) {
@@ -52,16 +49,19 @@ $ap_left = $total_apps - $ap_count;
         $currentDayRel = str_pad($currentDay, 1, "0", STR_PAD_LEFT);
         $date = "$year-$month-$currentDayRel";
 
-        #echo " $currentDay :";
-        #echo " $ap_count /";
-        #var_dump($apps_left);
+        #var_dump($test_count);
 
+/*
+foreach ($ap_count as $day) {
+echo " $day /";
+}
+ */
         if ($date == date("Y-m-d")) {
-            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'>Appointments Available: $ap_left</p></td>";
+            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'><a style='text-decoration: none;' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: $test_count</a></p></td>";
         } else if ($dayOfWeek >= 5) {
-            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'>Appointments Available: $ap_left</p></td>";
+            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='hyper' href='/hours.php' id='no-link'>Appointments Available: TBA</a></p></td>";
         } else {
-            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'>Appointments Available: $ap_left</p></td>";
+            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: TBA</a></p></td>";
         }
 
         $currentDay++;

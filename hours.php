@@ -28,19 +28,16 @@ $(function(){
     <tr class="hours" align="center">
         <td align="right">Name</td>
         <td align="left"><input name="name" id="name" class="input" type="text" size="16" maxlength="20"></td>
-        <td><p id="username_info"></p></td>
     </tr>
 
     <tr class="hours" align="center">
         <td align="right">Phone</td>
         <td align="left"><input name="phone" id="phone" class="input" type="text" size="16" maxlength="10"></td>
-        <td><p id="password_info"></p></td>
     </tr>
 
     <tr class="hours" align="center">
         <td align="right">E-Mail</td>
-        <td align="left"><input name="email" id="email" class="input" type="text" size="20" maxlength="50"></td>
-        <td><p id="email_info"></p></td>
+        <td align="left"><input name="email" id="email" class="input" type="text" size="22" maxlength="50"></td>
     </tr>
 
     <tr class="hours">
@@ -88,7 +85,7 @@ $(function(){
     $cur_day = date('d');
 
     $name = secure($_POST[name]);
-    $mail = secure($_POST[email]);
+    $email = secure($_POST[email]);
     $phone = secure($_POST[phone]);
 
     $app_hour = intval(secure($_POST[ap_hour]));
@@ -132,9 +129,21 @@ $(function(){
             break;
     }
 
-    mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$cur_day','$name','$email','$phone','$app_hour')");
+    #var_dump($phone);
 
-    echo "<div style='text-align:center; margin-top: 10%'><font color='#212636'; size='15px'>You successfully saved your appointment for " . date('F jS') . " at " . $hour . ".</font></div>";
-    echo "<script>setTimeout(\"window.location='/calendar.php';\",5000);</script>";
+    if (!is_numeric($phone)) {
+        echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Your phone must contain only digits.</font></div>";
+        echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+
+    } else if (!preg_match('/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+/', $email)) {
+        echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Please enter a valid email.</font></div>";
+        echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+
+    } else {
+        mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$cur_day','$name','$email','$phone','$app_hour')");
+
+        echo "<div style='text-align:center; margin-top: 10%'><font color='#00000'; size='15px'>You successfully saved your appointment for " . date('F jS') . " at " . $hour . ".</font></div>";
+        echo "<script>setTimeout(\"window.location='/calendar.php';\",5000);</script>";
+    }
 }
 ?>

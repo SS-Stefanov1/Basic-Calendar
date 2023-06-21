@@ -5,6 +5,7 @@ function secure($var)
 {
     return htmlspecialchars(trim($var));
 }
+
 ?>
 
 <!DOCTYPE html>
