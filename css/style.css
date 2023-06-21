@@ -1,7 +1,28 @@
+	.homepage {
+		background-image: url("../img/dentist_bg.png");
+		background-repeat: no-repeat;
+		background-size: cover;
+  	background-position-x: center;
+  	background-position-y: top;
+  }
+
+
+  .ap-text {
+  	text-align: center; 
+  	margin-top: 14%;
+  	color: red !important;
+  }
+
+
+  h1 {
+		color: black;
+		font-size: 125px;
+		text-align: center;
+  }
+
   body {
   	font-family: Lato;
   }
-
 
   caption {
   	font-size: 22pt; 

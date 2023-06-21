@@ -1,8 +1,9 @@
 <?php
-include 'index.php';
+include getenv('DOCUMENT_ROOT') . "/index.php";
+include getenv('DOCUMENT_ROOT') . "/config.php";
 session_start();
 
-if (!isset($_POST["submit"])) {?>
+if (!isset($_POST["register_appoitment"])) {?>
 
 <script type="text/javascript">
 $(function(){
@@ -74,15 +75,66 @@ $(function(){
 
 <table class="hours_table" align="center">
     <tr class="hours" align="center">
-        <td><input id="register_appoitment" class="button" type="submit" value="Make Appointment"></td>
+        <td><input id="register_appoitment" name="register_appoitment" class="button" type="submit" value="Make Appointment"></td>
     </tr>
 </table>
 </form>
 
 <?php
 } else {
-    mssql_query("INSERT INTO CalendarProject (year,month,day,name,email,phone,ap_hour) VALUES ('date('Y')','date('m')''date('d')','$_POST[name]','$_POST[email]','$_POST[phone]','$_POST[ap_hour]')");
-    echo "<font color='#56910f'>You successfully saved an appointment for " . $_POST[ap_hour] . "'.</font>";
-    echo "<script>setTimeout(\"window.location.reload();\",2500);</script>";
+
+    $cur_year = date('Y');
+    $cur_month = date('m');
+    $cur_day = date('d');
+
+    $name = secure($_POST[name]);
+    $mail = secure($_POST[email]);
+    $phone = secure($_POST[phone]);
+
+    $app_hour = intval(secure($_POST[ap_hour]));
+
+    switch ($app_hour) {
+        case '1':$hour = '09:00';
+            break;
+        case '2':$hour = '09:30';
+            break;
+        case '3':$hour = '10:00';
+            break;
+        case '4':$hour = '10:30';
+            break;
+        case '5':$hour = '11:00';
+            break;
+        case '6':$hour = '11:30';
+            break;
+        case '7':$hour = '12:00';
+            break;
+        case '8':$hour = '12:30';
+            break;
+        case '9':$hour = '13:00';
+            break;
+        case '10':$hour = '13:30';
+            break;
+        case '11':$hour = '14:00';
+            break;
+        case '12':$hour = '14:30';
+            break;
+        case '13':$hour = '15:00';
+            break;
+        case '14':$hour = '15:30';
+            break;
+        case '15':$hour = '16:00';
+            break;
+        case '16':$hour = '16:30';
+            break;
+        case '17':$hour = '17:00';
+            break;
+        case '18':$hour = '17:30';
+            break;
+    }
+
+    mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$cur_day','$name','$email','$phone','$app_hour')");
+
+    echo "<div style='text-align:center; margin-top: 10%'><font color='#212636'; size='15px'>You successfully saved your appointment for " . date('F jS') . " at " . $hour . ".</font></div>";
+    echo "<script>setTimeout(\"window.location='/calendar.php';\",5000);</script>";
 }
 ?>

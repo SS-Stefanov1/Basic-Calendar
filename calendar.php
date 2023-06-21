@@ -1,5 +1,7 @@
 <?php
-include 'index.php';
+include getenv('DOCUMENT_ROOT') . "/index.php";
+include getenv('DOCUMENT_ROOT') . "/config.php";
+session_start();
 
 function build_calendar($month, $year, $dateArray)
 {
@@ -33,7 +35,13 @@ function build_calendar($month, $year, $dateArray)
     }
 
     $month = str_pad($month, 2, "0", STR_PAD_LEFT);
+/*
+$ap_counter = array();
 
+$ap_query = mssql_query("SELECT count(ap_hour) as total FROM CalendarProject WHERE day = '" . $currentDay . "'");
+$ap_count = mssql_num_rows($ap_query);
+$ap_left = $total_apps - $ap_count;
+ */
     while ($currentDay <= $numberDays) {
 
         if ($dayOfWeek == 7) {
@@ -44,12 +52,16 @@ function build_calendar($month, $year, $dateArray)
         $currentDayRel = str_pad($currentDay, 1, "0", STR_PAD_LEFT);
         $date = "$year-$month-$currentDayRel";
 
+        #echo " $currentDay :";
+        #echo " $ap_count /";
+        #var_dump($apps_left);
+
         if ($date == date("Y-m-d")) {
-            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay</span></td>";
+            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'>Appointments Available: $ap_left</p></td>";
         } else if ($dayOfWeek >= 5) {
-            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span></td>";
+            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'>Appointments Available: $ap_left</p></td>";
         } else {
-            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span></td>";
+            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'>Appointments Available: $ap_left</p></td>";
         }
 
         $currentDay++;
