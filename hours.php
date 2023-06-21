@@ -3,7 +3,37 @@ include getenv('DOCUMENT_ROOT') . "/index.php";
 include getenv('DOCUMENT_ROOT') . "/config.php";
 session_start();
 
-if (!isset($_POST["register_appoitment"])) {?>
+$app_hours = array(
+    1 => '09:00',
+    2 => '09:30',
+    3 => '10:00',
+    4 => '10:30',
+    5 => '11:00',
+    6 => '11:30',
+    7 => '12:00',
+    8 => '12:30',
+    9 => '13:00',
+    10 => '13:30',
+    11 => '14:00',
+    12 => '14:30',
+    13 => '15:00',
+    14 => '15:30',
+    15 => '16:00',
+    16 => '16:30',
+    17 => '17:00',
+    18 => '17:30',
+);
+
+$sql = mssql_query("SELECT day,ap_hour FROM CalendarProject WHERE day = 21");
+
+while ($row = mssql_fetch_assoc($sql)) {
+    if (array_key_exists($row['ap_hour'], $app_hours)) {
+        unset($app_hours[$row['ap_hour']]);
+    }
+}
+
+if (!isset($_POST["register_appoitment"])) {
+    ?>
 
 <script type="text/javascript">
 $(function(){
@@ -14,7 +44,6 @@ $(function(){
             type: "POST",
             data: "submit=register_appoitment&"+str,
             success: function(data) {
-                //$('#name,#phone,#email,#ap_hour');
                 $("#register_info").hide().html(data).fadeIn("fast");
             }
         });
@@ -45,24 +74,11 @@ $(function(){
         <td align="left">
             <select size="1" name="ap_hour" class="input">
                 <optgroup label="Choose an hour for your appointment:">
-                    <option value="1">9:00</option>
-                    <option value="2">9:30</option>
-                    <option value="3">10:00</option>
-                    <option value="4">10:30</option>
-                    <option value="5">11:00</option>
-                    <option value="6">11:30</option>
-                    <option value="7">12:00</option>
-                    <option value="8">12:30</option>
-                    <option value="9">13:00</option>
-                    <option value="10">13:30</option>
-                    <option value="11">14:00</option>
-                    <option value="12">14:30</option>
-                    <option value="13">15:00</option>
-                    <option value="14">15:30</option>
-                    <option value="15">16:00</option>
-                    <option value="16">16:30</option>
-                    <option value="17">17:00</option>
-                    <option value="18">17:30</option>
+                    <?php
+foreach ($app_hours as $key => $value) {
+        echo "<option value='$key'>" . $value . "</option>";
+    }
+    ?>
                 </optgroup>
             </select>
         </td>
@@ -91,65 +107,21 @@ $(function(){
 
     $app_hour = intval(secure($_POST[ap_hour]));
 
-    switch ($app_hour) {
-        case '1':$hour = '09:00';
-            break;
-        case '2':$hour = '09:30';
-            break;
-        case '3':$hour = '10:00';
-            break;
-        case '4':$hour = '10:30';
-            break;
-        case '5':$hour = '11:00';
-            break;
-        case '6':$hour = '11:30';
-            break;
-        case '7':$hour = '12:00';
-            break;
-        case '8':$hour = '12:30';
-            break;
-        case '9':$hour = '13:00';
-            break;
-        case '10':$hour = '13:30';
-            break;
-        case '11':$hour = '14:00';
-            break;
-        case '12':$hour = '14:30';
-            break;
-        case '13':$hour = '15:00';
-            break;
-        case '14':$hour = '15:30';
-            break;
-        case '15':$hour = '16:00';
-            break;
-        case '16':$hour = '16:30';
-            break;
-        case '17':$hour = '17:00';
-            break;
-        case '18':$hour = '17:30';
-            break;
-    }
-
     #var_dump($phone);
 
-    if (!is_numeric($phone)) {
+    if ($name == '') {
+        echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Name can't be blank.</font></div>";
+        echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+    } else if (!is_numeric($phone)) {
         echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Your phone must contain only digits.</font></div>";
         echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
-
     } else if (!preg_match('/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+/', $email)) {
         echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Please enter a valid email.</font></div>";
         echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
-    }
-
-    #else if (!preg_match('/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+/', $email)) {
-    #    echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Hour has already been reserved by another patient.</font></div>";
-    #    echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
-    #}
-
-    else {
+    } else {
         mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$cur_day','$name','$email','$phone','$app_hour')");
 
-        echo "<div style='text-align:center; margin-top: 10%'><font color='#00000'; size='15px'>You successfully saved your appointment for " . date('F jS') . " at " . $hour . ".</font></div>";
+        echo "<div style='text-align:center; margin-top: 10%'><font color='#00000'; size='15px'>You successfully saved your appointment for " . date('F jS') . " at " . $app_hours[$app_hour] . ".</font></div>";
         echo "<script>setTimeout(\"window.location='/calendar.php';\",5000);</script>";
     }
 }
