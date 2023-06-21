@@ -36,8 +36,50 @@ function build_calendar($month, $year, $dateArray)
 
     $month = str_pad($month, 2, "0", STR_PAD_LEFT);
 
-    $test_query = mssql_query("SELECT COUNT(ap_hour) FROM CalendarProject WHERE $date = date('Y-m-d');");
-    $test_count = mssql_fetch_array($test_query);
+    $app_hours = array(
+        1 => '09:00',
+        2 => '09:30',
+        3 => '10:00',
+        4 => '10:30',
+        5 => '11:00',
+        6 => '11:30',
+        7 => '12:00',
+        8 => '12:30',
+        9 => '13:00',
+        10 => '13:30',
+        11 => '14:00',
+        12 => '14:30',
+        13 => '15:00',
+        14 => '15:30',
+        15 => '16:00',
+        16 => '16:30',
+        17 => '17:00',
+        18 => '17:30',
+    );
+
+    $day_test = date('d');
+
+    $sql = mssql_query("SELECT day,ap_hour FROM CalendarProject WHERE day = $day_test");
+
+    while ($row = mssql_fetch_assoc($sql)) {
+        if (array_key_exists($row['ap_hour'], $app_hours)) {
+            unset($app_hours[$row['ap_hour']]);
+        }
+    }
+
+    echo count($app_hours);
+
+    #foreach ($app_hours as $app => $hour) {
+    #$result = mssql_query("SELECT day,ap_hour,COUNT(ap_hour) as hours FROM CalendarProject WHERE day = $day_test GROUP BY day");
+    #$matchFound = mssql_num_rows($result) > 0 ? 'yes' : 'no';
+    #$row = mssql_fetch_array($sql);
+
+    #echo "$app ";
+    #echo $row['ap_hour'];
+    #var_dump($day);
+    #echo "$day_a ";
+    #echo "$matchFound ";
+    #}
 
     while ($currentDay <= $numberDays) {
 
@@ -51,13 +93,8 @@ function build_calendar($month, $year, $dateArray)
 
         #var_dump($test_count);
 
-/*
-foreach ($ap_count as $day) {
-echo " $day /";
-}
- */
         if ($date == date("Y-m-d")) {
-            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'><a style='text-decoration: none;' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: $test_count</a></p></td>";
+            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'><a style='text-decoration: none;' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
         } else if ($dayOfWeek >= 5) {
             $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='hyper' href='/hours.php' id='no-link'>Appointments Available: TBA</a></p></td>";
         } else {

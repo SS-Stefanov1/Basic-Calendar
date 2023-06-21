@@ -64,7 +64,8 @@ $(function(){
                     <option value="17">17:00</option>
                     <option value="18">17:30</option>
                 </optgroup>
-            </select></td>
+            </select>
+        </td>
     </tr>
 </table>
 
@@ -138,8 +139,14 @@ $(function(){
     } else if (!preg_match('/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+/', $email)) {
         echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Please enter a valid email.</font></div>";
         echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+    }
 
-    } else {
+    #else if (!preg_match('/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+/', $email)) {
+    #    echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Hour has already been reserved by another patient.</font></div>";
+    #    echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+    #}
+
+    else {
         mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$cur_day','$name','$email','$phone','$app_hour')");
 
         echo "<div style='text-align:center; margin-top: 10%'><font color='#00000'; size='15px'>You successfully saved your appointment for " . date('F jS') . " at " . $hour . ".</font></div>";
