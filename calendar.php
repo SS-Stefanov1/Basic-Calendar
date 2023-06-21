@@ -78,11 +78,11 @@ function build_calendar($month, $year, $dateArray)
         #var_dump($test_count);
 
         if ($date == date("Y-m-d")) {
-            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'><a style='text-decoration: none;' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
+            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
         } else if ($dayOfWeek >= 5) {
-            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='hyper' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
+            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
         } else {
-            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
+            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
         }
 
         $currentDay++;
