@@ -113,13 +113,13 @@ foreach ($app_hours as $key => $value) {
 
     if ($name == '') {
         echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Name can't be blank.</font></div>";
-        echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+        echo "<script>setTimeout(\"window.location='/calendar.php';\",2500);</script>";
     } else if (!is_numeric($phone)) {
         echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Your phone must contain only digits.</font></div>";
-        echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+        echo "<script>setTimeout(\"window.location='/calendar.php';\",2500);</script>";
     } else if (!preg_match('/([a-zA-Z0-9!#$%&’?^_`~-])+@([a-zA-Z0-9-])+/', $email)) {
         echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Please enter a valid email.</font></div>";
-        echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
+        echo "<script>setTimeout(\"window.location='/calendar.php';\",2500);</script>";
     } else {
         mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$date_picked','$name','$email','$phone','$app_hour')");
 
