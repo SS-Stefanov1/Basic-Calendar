@@ -24,7 +24,10 @@ $app_hours = array(
     18 => '17:30',
 );
 
-$sql = mssql_query("SELECT day,ap_hour FROM CalendarProject WHERE day = 21");
+$date_picked = intval($_GET[d]);
+#var_dump($date_picked);
+
+$sql = mssql_query("SELECT day,ap_hour FROM CalendarProject WHERE day = $date_picked");
 
 while ($row = mssql_fetch_assoc($sql)) {
     if (array_key_exists($row['ap_hour'], $app_hours)) {
@@ -99,7 +102,6 @@ foreach ($app_hours as $key => $value) {
 
     $cur_year = date('Y');
     $cur_month = date('m');
-    $cur_day = date('d');
 
     $name = secure($_POST[name]);
     $email = secure($_POST[email]);
@@ -119,9 +121,9 @@ foreach ($app_hours as $key => $value) {
         echo "<div style='text-align:center; margin-top: 10%'><font color='#db2531'; size='15px'>Please enter a valid email.</font></div>";
         echo "<script>setTimeout(\"window.location='/hours.php';\",2500);</script>";
     } else {
-        mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$cur_day','$name','$email','$phone','$app_hour')");
+        mssql_query("INSERT INTO CalendarProject VALUES ('$cur_year','$cur_month','$date_picked','$name','$email','$phone','$app_hour')");
 
-        echo "<div style='text-align:center; margin-top: 10%'><font color='#00000'; size='15px'>You successfully saved your appointment for " . date('F jS') . " at " . $app_hours[$app_hour] . ".</font></div>";
+        echo "<div style='text-align:center; margin-top: 10%'><font color='#00000'; size='15px'>You successfully saved your appointment for " . date('F') . " " . $date_picked . "" . date('S') . " at " . $app_hours[$app_hour] . ".</font></div>";
         echo "<script>setTimeout(\"window.location='/calendar.php';\",5000);</script>";
     }
 }

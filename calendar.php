@@ -8,15 +8,17 @@ function build_calendar($month, $year, $dateArray)
 
     $month = date('m');
     $year = date('Y');
-    $day = date('d');
 
     $daysOfWeek = array('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday');
-    $firstDayOfMonth = mktime(0, 0, 0, $month, $day, $year);
+    $actual_month = mktime(0, 0, 0, $month, $day, $year);
+    $fake_month = mktime(0, 0, 0, $month - 1, $day, $year);
 
-    $numberDays = date('t', $firstDayOfMonth);
-    $dateComponents = getdate($firstDayOfMonth);
+    $day = date('d');
 
-    $monthName = $dateComponents['month'];
+    $numberDays = date('t', $fake_month);
+    $dateComponents = getdate($actual_month);
+
+    $monthName = date('F');
     $dayOfWeek = $dateComponents['wday'];
 
     $calendar = "<table class='calendar_table'>";
@@ -78,11 +80,11 @@ function build_calendar($month, $year, $dateArray)
         #var_dump($test_count);
 
         if ($date == date("Y-m-d")) {
-            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
+            $calendar .= "<td class='day today' rel='$date'><span class='today-date'>$currentDay </span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' id='link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
         } else if ($dayOfWeek >= 5) {
-            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
+            $calendar .= "<td class='day_wk' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' id='link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
         } else {
-            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' href='/hours.php' id='no-link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
+            $calendar .= "<td class='day' rel='$date'><span class='day-date'>$currentDay</span><p style='text-align: center; margin-top: 14%;'><a class='calendarButton' style='text-decoration: none;' id='link'>Appointments Available: <font color='green'>" . count($app_hours) . "</font></a></p></td>";
         }
 
         $currentDay++;

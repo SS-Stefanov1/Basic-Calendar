@@ -49,7 +49,7 @@
   	height: 140px; 
   	border: 1px solid #000; 
   	vertical-align: top;
-		background-color: #a2d9f1;
+		background-color: #b3d8e8;
   	font-size: 14pt; 
   	font-weight: 700;
   }
@@ -60,7 +60,7 @@
   	height: 140px; 
   	border: 1px solid #000; 
   	vertical-align: top;
-		background-color: #7ac9eb;
+		background-color: #8aa8b5;
   	font-size: 14pt; 
   	font-weight: 700;
   }
@@ -80,7 +80,7 @@
 
 
   td.today {
-  	background-color: #bfd0d9;
+  	background-color: #a1d6a3;
   }
 
 
